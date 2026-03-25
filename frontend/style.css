@@ -1,0 +1,186 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at top left, #0c1322 0%, #090d16 45%, #050708 100%);
+  color: #d8ecff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 2fr 1fr;
+  grid-template-areas:
+    "map logs threats"
+    "map vitals threats";
+  gap: 12px;
+  min-height: 100vh;
+  padding: 14px;
+}
+
+.panel {
+  background: rgba(16, 23, 38, 0.95);
+  border: 1px solid #19406e;
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 0 36px rgba(15, 207, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+}
+
+h2 {
+  margin: 0 0 10px;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #3ed7ff;
+  border-bottom: 1px solid #214662;
+  padding-bottom: 7px;
+}
+
+.map-panel { grid-area: map; }
+.logs-panel { grid-area: logs; }
+.threats-panel { grid-area: threats; }
+.vitals-panel { grid-area: vitals; }
+
+#map {
+  position: relative;
+  flex: 1;
+  min-height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #0b1474 0%, #06102d 40%, #02111a 100%);
+  overflow: hidden;
+  border: 1px solid #1d4c7f;
+}
+
+.map-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image:
+    linear-gradient(rgba(85, 145, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(85, 145, 255, 0.07) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.node-tooltip {
+  position: absolute;
+  background: rgba(2, 12, 26, 0.93);
+  border: 1px solid #2e84bf;
+  color: #d7edff;
+  font-size: 12px;
+  border-radius: 6px;
+  padding: 5px 8px;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 9;
+}
+
+.dot {
+  width: 14px;
+  height: 14px;
+  background: #2ce4ff;
+  border: 1px solid #9cffff;
+  border-radius: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 12px rgba(44, 228, 255, 0.65);
+  z-index: 5;
+}
+
+.dot::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(44, 228, 255, 0.7);
+  animation: circle-pulse 1.8s infinite;
+}
+
+@keyframes circle-pulse {
+  0% { transform: scale(0.85); opacity: 1; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+#logs, #threats, #vitals {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #2e84bf transparent;
+}
+
+#logs::-webkit-scrollbar, #threats::-webkit-scrollbar, #vitals::-webkit-scrollbar {
+  width: 8px;
+}
+
+#logs::-webkit-scrollbar-thumb, #threats::-webkit-scrollbar-thumb, #vitals::-webkit-scrollbar-thumb {
+  background: #3f7ed1;
+  border-radius: 999px;
+}
+
+.log {
+  background: rgba(31, 46, 73, 0.9);
+  border: 1px solid #275294;
+  border-left: 4px solid #48d3ff;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  font-size: 12px;
+  line-height: 1.3;
+  color: #d1e6ff;
+}
+
+.alert {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(105, 7, 5, 0.25);
+  border: 1px solid #ca1e2e;
+  color: #ffb3b3;
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  animation: threat-blink 1.2s infinite;
+}
+
+.alert span {
+  font-size: 12px;
+  color: #ffd2d2;
+}
+
+@keyframes threat-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.vital {
+  background: rgba(29, 50, 72, 0.85);
+  border: 1px solid #2e73a4;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.vital strong {
+  color: #79d6ff;
+}
+
+.progress {
+  height: 8px;
+  width: 55%;
+  border-radius: 999px;
+  background: rgba(74, 112, 154, 0.45);
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #1bc8ff, #00d2ff);
+}
