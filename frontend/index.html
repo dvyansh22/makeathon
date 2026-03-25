@@ -1,60 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CITADEL Command</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Command Dashboard</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="dashboard">
+<div class="container">
 
-  <!-- MAP -->
-  <div class="panel map-panel">
-    <h2>TACTICAL MAP</h2>
-    <div id="map"></div>
-  </div>
-<!-- OP STATUS -->
-<div class="panel status-panel">
-  <h2>OP-AREA STATUS</h2>
-
-  <div class="status-time-box">
-    <div class="label">LOCAL TIME</div>
-    <div id="local-time">--:--:--</div>
-  </div>
-
-  <div class="status-row">
-    <div>
-      <div class="label">DATE</div>
-      <div id="date"></div>
-      <div id="day"></div>
+    <!-- MAP -->
+    <div class="map-section">
+        <img src="assets/terrain.png" class="map-img">
     </div>
 
-    <div>
-      <div class="label">WEATHER</div>
-      <div id="weather">CLEAR</div>
-      <div class="sub">VIS: OPTIMAL</div>
+    <!-- LOGS -->
+    <div class="logs-section">
+        <h3>SECURE NETWORK</h3>
+        <div id="logs"></div>
     </div>
-  </div>
-</div>
-  <!-- LOGS -->
-  <div class="panel logs-panel">
-    <h2>SECURE NETWORK</h2>
-    <div id="logs"></div>
-  </div>
 
-  <!-- THREATS -->
-  <div class="panel threats-panel">
-    <h2>THREAT DETECT</h2>
-    <div id="threats"></div>
-  </div>
+    <!-- THREATS -->
+    <div class="threat-section">
+        <h3>THREAT DETECT</h3>
+        <div id="threats"></div>
+    </div>
 
-  <!-- VITALS -->
-  <div class="panel vitals-panel">
-    <h2>UNIT VITALS</h2>
-    <div id="vitals"></div>
-  </div>
+    <!-- STATUS -->
+    <div class="status-section">
+        <h3>OP-AREA STATUS</h3>
+        <div id="time"></div>
+        <div id="date"></div>
+    </div>
+
+    <!-- VITALS -->
+    <div class="vitals-section">
+        <h3>UNIT VITALS</h3>
+        <div id="vitals"></div>
+    </div>
 
 </div>
 

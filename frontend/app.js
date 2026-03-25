@@ -1,31 +1,15 @@
-import { renderMap } from './components/map.js';
-import { renderLogs } from './components/logs.js';
-import { renderThreats } from './components/threats.js';
-import { renderVitals } from './components/vitals.js';
-import { initStatus } from './components/status.js';
+import { loadLogs } from './components/logs.js';
+import { loadThreats } from './components/threats.js';
+import { loadVitals } from './components/vitals.js';
+import { loadMap } from './components/map.js';
 
-const API_BASE = 'http://localhost:5000';
+loadMap();
+loadLogs();
+loadThreats();
+loadVitals();
 
-
-
-async function update() {
-  try {
-    const [nodes, logs, threats, vitals] = await Promise.all([
-      fetch(`${API_BASE}/nodes`).then(res => res.ok ? res.json() : []),
-      fetch(`${API_BASE}/logs`).then(res => res.ok ? res.json() : []),
-      fetch(`${API_BASE}/threats`).then(res => res.ok ? res.json() : []),
-      fetch(`${API_BASE}/vitals`).then(res => res.ok ? res.json() : {}),
-    ]);
-
-    renderMap(nodes);
-    renderLogs(logs);
-    renderThreats(threats);
-    renderVitals(vitals);
-  } catch (err) {
-    console.error('Update failed', err);
-    document.getElementById('logs').innerHTML = `<div class="log">API connection error: ${err.message}</div>`;
-  }
-}
-initStatus();
-update();
-setInterval(update, 2000);
+setInterval(() => {
+    const now = new Date();
+    document.getElementById("time").innerText = now.toLocaleTimeString();
+    document.getElementById("date").innerText = now.toDateString();
+}, 1000);
