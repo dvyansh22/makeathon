@@ -12,10 +12,20 @@ export function loadLogs(logs = []) {
         return;
     }
 
+    const ul = document.createElement("ul");
+    ul.className = "log-list";
+
     [...logs].reverse().forEach(log => {
-        const div = document.createElement("div");
-        div.className = "log";
-        div.innerText = `${log.id} | ${log.cmd} | ${formatTime(log.time)}`;
-        container.appendChild(div);
+        const li = document.createElement("li");
+
+        li.innerHTML = `
+            <span class="log-time">[${formatTime(log.time)}]</span>
+            <span class="log-unit">${log.id}:</span>
+            <span class="log-msg">${log.cmd}</span>
+        `;
+
+        ul.appendChild(li);
     });
+
+    container.appendChild(ul);
 }

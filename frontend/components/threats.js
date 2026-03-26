@@ -17,9 +17,22 @@ export function loadThreats(threats = []) {
     }
 
     [...threats].reverse().forEach(threat => {
-        const div = document.createElement("div");
-        div.className = "threat-card";
-        div.innerText = `${threat.node_id} -> E${threat.enemy_id} | ${formatCoordinate(threat.lat)}, ${formatCoordinate(threat.lon)} | ${formatTime(threat.time)}`;
-        container.appendChild(div);
+        const card = document.createElement("div");
+        card.className = "threat-card";
+
+        card.innerHTML = `
+            <div class="threat-header">
+                <span class="dot"></span>
+                <span class="title">Enemy E${threat.enemy_id}</span>
+                <span class="time">${formatTime(threat.time)}</span>
+            </div>
+            <div class="desc">
+                Node ${threat.node_id} detected enemy at 
+                (${formatCoordinate(threat.lat)}, ${formatCoordinate(threat.lon)})
+            </div>
+            <div class="tag">SOURCE: NODE ${threat.node_id}</div>
+        `;
+
+        container.appendChild(card);
     });
 }

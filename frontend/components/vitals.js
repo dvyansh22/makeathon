@@ -15,6 +15,30 @@ function createStat(label, value) {
     return stat;
 }
 
+function getECGPath(bpm) {
+    if (!bpm || bpm === 0) {
+        return `<path d="M0,30 L300,30" class="flatline"/>`;
+    }
+
+    return `
+        <path d="M0,30 
+                 L20,30 
+                 L30,10 
+                 L40,50 
+                 L50,30 
+                 L70,30 
+                 L80,25 
+                 L90,35 
+                 L100,30 
+                 L130,30 
+                 L140,5 
+                 L150,55 
+                 L160,30 
+                 L200,30 
+                 L300,30" />
+    `;
+}
+
 export function loadVitals(vitals = []) {
     const container = document.getElementById('vitals');
     container.innerHTML = '';
@@ -32,13 +56,29 @@ export function loadVitals(vitals = []) {
         title.className = 'vital-name';
         title.textContent = vital.id;
 
+        const bpm = vital.hr ?? 0;
+
+        const bpmDisplay = document.createElement('div');
+        bpmDisplay.className = 'vital-bpm';
+        bpmDisplay.textContent = bpm ? `${bpm} BPM` : '--';
+
+        const ecg = document.createElement('div');
+        ecg.className = 'ecg';
+        ecg.innerHTML = `
+            <svg viewBox="0 0 300 60" preserveAspectRatio="none">
+                ${getECGPath(bpm)}
+            </svg>
+        `;
+
         const grid = document.createElement('div');
         grid.className = 'vital-grid';
-        grid.appendChild(createStat('Heart Rate', vital.hr == null ? '--' : `${vital.hr} BPM`));
         grid.appendChild(createStat('Enemy Count', `${vital.enemy_count ?? 0}`));
 
         card.appendChild(title);
+        card.appendChild(bpmDisplay);
+        card.appendChild(ecg);
         card.appendChild(grid);
+
         container.appendChild(card);
     });
 }

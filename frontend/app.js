@@ -13,8 +13,20 @@ const POLL_INTERVAL_MS = 3000;
 
 function updateClock() {
     const now = new Date();
-    document.getElementById("time").innerText = now.toLocaleTimeString();
-    document.getElementById("date").innerText = now.toDateString();
+
+    const time = now.toLocaleTimeString('en-US', {
+        hour12: false
+    });
+
+    const date = now.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+    });
+
+    document.getElementById("time").innerText = time;
+    document.getElementById("date").innerText = date;
 }
 
 function formatTimestamp(timestamp) {
@@ -82,3 +94,9 @@ refreshDashboard();
 
 setInterval(updateClock, 1000);
 setInterval(refreshDashboard, POLL_INTERVAL_MS);
+setInterval(() => {
+    const live = document.querySelector(".live-indicator");
+    if (live) {
+        live.style.opacity = live.style.opacity === "0.3" ? "1" : "0.3";
+    }
+}, 800);
