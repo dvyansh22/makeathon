@@ -12,11 +12,6 @@ loadVitals();
 /* TIME + DATE UPDATE */
 function updateTime() {
     const now = new Date();
-<<<<<<< HEAD
-    document.getElementById("time").innerText = now.toLocaleTimeString();
-    document.getElementById("date").innerText = now.toDateString();
-}, 1000);
-=======
 
     // Digital style time (24-hour)
     const time = now.toLocaleTimeString('en-US', {
@@ -46,4 +41,3 @@ setInterval(() => {
         live.style.opacity = live.style.opacity === "0.3" ? "1" : "0.3";
     }
 }, 800);
->>>>>>> 6a6db19 (updated frontend components)
