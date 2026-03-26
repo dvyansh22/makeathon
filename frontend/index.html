@@ -11,7 +11,7 @@
 
     <!-- MAP -->
     <div class="map-section">
-        <img src="assets/terrain.png" class="map-img">
+        <img src="enhanced_image_high.jpg" class="map-img">
     </div>
 
     <!-- LOGS -->
@@ -26,11 +26,39 @@
         <div id="threats"></div>
     </div>
 
-    <!-- STATUS -->
+    <!-- STATUS (UPDATED UI) -->
     <div class="status-section">
-        <h3>OP-AREA STATUS</h3>
-        <div id="time"></div>
-        <div id="date"></div>
+
+        <!-- HEADER -->
+        <div class="status-header">
+            <h3>OP-AREA STATUS</h3>
+            <div class="live-indicator">● LIVE</div>
+        </div>
+
+        <!-- TIME BOX -->
+        <div class="time-box">
+            <div class="label">LOCAL TIME</div>
+            <div id="time"></div>
+        </div>
+
+        <!-- INFO SECTION -->
+        <div class="status-info">
+
+            <!-- DATE -->
+            <div class="info-block">
+                <div class="label">DATE</div>
+                <div id="date"></div>
+            </div>
+
+            <!-- WEATHER -->
+            <div class="info-block">
+                <div class="label">WEATHER</div>
+                <div>CLEAR</div>
+                <div class="sub">VIS: OPTIMAL</div>
+            </div>
+
+        </div>
+
     </div>
 
     <!-- VITALS -->
