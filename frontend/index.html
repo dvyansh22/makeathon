@@ -11,7 +11,9 @@
 
     <!-- MAP -->
     <div class="map-section">
-        <img src="enhanced_image_high.jpg" class="map-img">
+        <div class="panel-title">TACTICAL MAP</div>
+        <img src="assets/terrain.png" class="map-img">
+        <div id="node-overlay" class="node-overlay"></div>
     </div>
 
     <!-- LOGS -->
@@ -26,7 +28,7 @@
         <div id="threats"></div>
     </div>
 
-    <!-- STATUS (UPDATED UI) -->
+    <!-- STATUS -->
     <div class="status-section">
 
         <!-- HEADER -->
@@ -34,6 +36,10 @@
             <h3>OP-AREA STATUS</h3>
             <div class="live-indicator">● LIVE</div>
         </div>
+
+        <!-- BACKEND STATUS (from main) -->
+        <div id="backend-status" class="status-pill">Waiting for backend...</div>
+        <div id="node-count" class="status-meta">0 active units</div>
 
         <!-- TIME BOX -->
         <div class="time-box">

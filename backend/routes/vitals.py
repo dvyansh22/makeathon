@@ -1,13 +1,8 @@
-from flask import Blueprint, request, jsonify
-from services.store import update_vitals, get_vitals
+from flask import Blueprint, jsonify
+from services.store import get_vitals
 
 bp = Blueprint('vitals', __name__)
 
-@bp.route('/vitals', methods=['POST'])
-def vitals():
-    update_vitals(request.json)
-    return {"ok": True}
-
 @bp.route('/vitals')
-def get_vitals_api():
+def vitals():
     return jsonify(get_vitals())

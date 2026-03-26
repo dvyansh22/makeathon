@@ -30,6 +30,11 @@ body {
     transition: 0.3s;
 }
 
+.map-section {
+    overflow: hidden;
+    position: relative;
+}
+
 .map-section:hover,
 .logs-section:hover,
 .threat-section:hover,
@@ -40,11 +45,32 @@ body {
 }
 
 /* MAP */
+.panel-title {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.85);
+    color: #38bdf8;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+}
+
 .map-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 10px;
+}
+
+.node-overlay {
+    position: absolute;
+    inset: 0;
+    padding: 12px;
+    pointer-events: none;
 }
 
 /* ================= LOGS ================= */
@@ -102,12 +128,6 @@ body {
     margin-right: 6px;
 }
 
-.log-unit.center { color: #facc15; }
-.log-unit.ghost { color: #38bdf8; }
-.log-unit.saber { color: #22c55e; }
-.log-unit.system { color: #94a3b8; }
-.log-unit.raven { color: #ef4444; }
-
 /* ================= THREATS ================= */
 
 .threat-section {
@@ -162,28 +182,14 @@ body {
     color: #fed7aa;
 }
 
-/* ================= POSITION FIX ================= */
+/* ================= STATUS ================= */
 
-.vitals-section {
-    grid-column: 1 / 2;
-    grid-row: 2 / 3;
-}
-
-.status-section {
-    grid-column: 2 / 3;
-    grid-row: 2 / 3;
-}
-
-/* ================= STATUS (UPGRADED) ================= */
-
-/* header */
 .status-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-/* LIVE indicator */
 .live-indicator {
     color: #22c55e;
     font-size: 12px;
@@ -191,7 +197,27 @@ body {
     text-shadow: 0 0 6px #22c55e;
 }
 
-/* time box */
+.status-pill {
+    margin: 8px 0 6px;
+    padding: 8px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    background: #0b1220;
+    color: #e2e8f0;
+    font-size: 12px;
+}
+
+.status-pill.error {
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #fecaca;
+}
+
+.status-meta {
+    margin-bottom: 12px;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
 .time-box {
     margin-top: 15px;
     padding: 12px;
@@ -201,7 +227,6 @@ body {
     text-align: center;
 }
 
-/* label */
 .label {
     font-size: 11px;
     opacity: 0.6;
@@ -209,14 +234,12 @@ body {
     letter-spacing: 1px;
 }
 
-/* big time */
 #time {
     font-size: 34px;
     font-weight: bold;
     letter-spacing: 2px;
 }
 
-/* INFO SECTION IMPROVED */
 .status-info {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -231,34 +254,6 @@ body {
     border: 1px solid rgba(56, 189, 248, 0.15);
 }
 
-/* LABEL */
-.info-block .label {
-    font-size: 10px;
-    letter-spacing: 1px;
-    color: #64748b;
-    margin-bottom: 4px;
-}
-
-/* MAIN TEXT */
-.info-block div:not(.label):not(.sub) {
-    font-size: 15px;
-    font-weight: 500;
-    color: #e2e8f0;
-}
-
-/* SUB TEXT */
-.sub {
-    font-size: 11px;
-    opacity: 0.6;
-    margin-top: 2px;
-}
-
-/* WEATHER HIGHLIGHT */
-.info-block:last-child {
-    border-left: 3px solid #38bdf8;
-}
-
-/* sub text */
 .sub {
     font-size: 11px;
     opacity: 0.6;
@@ -266,16 +261,55 @@ body {
 
 /* ================= VITALS ================= */
 
-.vital {
-    font-size: 32px;
+.vital-card {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    background: #0f172a;
+    border: 1px solid rgba(56, 189, 248, 0.14);
+}
+
+.vital-name {
+    margin-bottom: 8px;
+    color: #f8fafc;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.vital-bpm {
+    font-size: 28px;
     color: #ef4444;
     font-weight: bold;
-    text-shadow: 0 0 15px red;
+    text-shadow: 0 0 10px red;
+}
+
+.vital-grid {
+    display: grid;
+    gap: 8px;
+}
+
+.vital-stat {
+    padding: 8px;
+    border-radius: 8px;
+    background: rgba(15, 23, 42, 0.7);
+}
+
+.vital-label {
+    margin-bottom: 4px;
+    color: #94a3b8;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+}
+
+.vital-value {
+    color: #f8fafc;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 /* ECG */
 .ecg {
-    margin-top: 15px;
+    margin-top: 10px;
     height: 60px;
     overflow: hidden;
 }
@@ -293,18 +327,43 @@ body {
     animation: ecgMove 2s linear infinite;
 }
 
-.flatline {
-    stroke: #ef4444;
-    stroke-width: 2;
-    animation: none !important;
-}
-
 @keyframes ecgMove {
     from { transform: translateX(0); }
     to { transform: translateX(-150px); }
 }
 
-/* ================= HEADINGS ================= */
+/* ================= MARKERS ================= */
+
+.node-marker {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    min-width: 120px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: rgba(15, 23, 42, 0.88);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+.enemy-marker {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    padding: 6px 8px;
+    border-radius: 999px;
+    background: rgba(127, 29, 29, 0.92);
+    border: 1px solid rgba(248, 113, 113, 0.85);
+    color: #fee2e2;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* ================= PLACEHOLDER ================= */
+
+.placeholder {
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+/* ================= GLOBAL ================= */
 
 h3 {
     color: #38bdf8;
@@ -312,8 +371,6 @@ h3 {
     margin-bottom: 10px;
     text-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
 }
-
-/* ================= SCROLLBAR ================= */
 
 ::-webkit-scrollbar {
     width: 6px;
@@ -324,3 +381,21 @@ h3 {
     border-radius: 10px;
 }
 
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 960px) {
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+
+    .map-section {
+        min-height: 280px;
+    }
+
+    .threat-section,
+    .vitals-section {
+        grid-column: auto;
+        grid-row: auto;
+    }
+}
