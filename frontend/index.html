@@ -11,7 +11,9 @@
 
     <!-- MAP -->
     <div class="map-section">
+        <div class="panel-title">TACTICAL MAP</div>
         <img src="assets/terrain.png" class="map-img">
+        <div id="node-overlay" class="node-overlay"></div>
     </div>
 
     <!-- LOGS -->
@@ -29,6 +31,8 @@
     <!-- STATUS -->
     <div class="status-section">
         <h3>OP-AREA STATUS</h3>
+        <div id="backend-status" class="status-pill">Waiting for backend...</div>
+        <div id="node-count" class="status-meta">0 active units</div>
         <div id="time"></div>
         <div id="date"></div>
     </div>
