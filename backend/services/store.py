@@ -98,7 +98,6 @@ def ingest_data(data):
     node_id = normalized["id"]
 
     with store_lock:
-        previous_cmd = nodes.get(node_id, {}).get("cmd")
         nodes[node_id] = {
             "id": node_id,
             "lat": normalized["lat"],
@@ -110,7 +109,7 @@ def ingest_data(data):
             "timestamp": normalized["timestamp"],
         }
 
-        if normalized["cmd"] and normalized["cmd"] != previous_cmd:
+        if normalized["cmd"]:
             logs.append({
                 "id": node_id,
                 "cmd": normalized["cmd"],
