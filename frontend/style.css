@@ -73,59 +73,88 @@ body {
     pointer-events: none;
 }
 
-/* ================= LOGS ================= */
+/* ================= LOGS (FINAL UPGRADED) ================= */
 
 .logs-section {
     overflow: hidden;
 }
 
+/* container */
 #logs {
     height: 100%;
     overflow-y: auto;
     padding-right: 6px;
 }
 
+/* scrollbar */
 #logs::-webkit-scrollbar {
     width: 5px;
 }
-
 #logs::-webkit-scrollbar-thumb {
-    background: #38bdf8;
+    background: linear-gradient(#38bdf8, #0ea5e9);
     border-radius: 10px;
 }
 
+/* list */
 .log-list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
+/* each log card */
 .log-list li {
-    font-size: 13px;
+    position: relative;
+    font-size: 12.5px;
     margin-bottom: 10px;
-    line-height: 1.4;
-    transition: 0.2s;
+    line-height: 1.5;
+    padding: 10px 12px;
+    border-radius: 8px;
+
+    background: linear-gradient(145deg, rgba(10,15,30,0.9), rgba(2,6,23,0.9));
+    border: 1px solid rgba(56, 189, 248, 0.15);
+
+    transition: 0.25s;
 }
 
-.log-list li:hover {
-    background: rgba(56, 189, 248, 0.05);
+/* left glow bar */
+.log-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 3px;
     border-radius: 4px;
-    padding: 4px;
+    background: #38bdf8;
+    box-shadow: 0 0 8px #38bdf8;
 }
 
+/* hover effect */
+.log-list li:hover {
+    transform: translateX(4px);
+    background: linear-gradient(145deg, rgba(20,30,60,0.9), rgba(2,6,23,0.95));
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.2);
+}
+
+/* TIME */
 .log-time {
-    color: #64748b;
+    color: #38bdf8;
+    font-size: 11px;
     margin-right: 6px;
-    font-size: 12px;
 }
 
-.log-msg {
-    color: #cbd5f5;
-}
-
+/* UNIT */
 .log-unit {
-    font-weight: bold;
+    font-weight: 600;
     margin-right: 6px;
+    color: #facc15;
+    text-shadow: 0 0 4px rgba(250, 204, 21, 0.6);
+}
+
+/* MESSAGE */
+.log-msg {
+    color: #e2e8f0;
 }
 
 /* ================= THREATS ================= */
@@ -164,99 +193,161 @@ body {
     opacity: 0.6;
 }
 
-.threat-card.critical {
-    background: rgba(127, 29, 29, 0.7);
-    border-color: #ef4444;
-    color: #fecaca;
+/* ================= THREATS ================= */
+
+.threat-section {
+    grid-column: 3 / 4;
+    grid-row: 1 / 3;
+    overflow-y: auto;
 }
 
-.threat-card.warning {
-    background: rgba(120, 53, 15, 0.7);
+.threat-card {
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid;
+    font-size: 13px;
+
+    /* default = RED */
+    background: rgba(80, 0, 0, 0.85);
+    border-color: #ff3b3b;
+    color: #ffcccc;
+}
+
+/* ALTERNATE CARDS = YELLOW */
+.threat-card:nth-child(even) {
+    background: rgba(80, 60, 0, 0.85);
     border-color: #facc15;
-    color: #fde68a;
+    color: #fff3b0;
 }
 
-.threat-card.danger {
-    background: rgba(153, 27, 27, 0.7);
-    border-color: #fb923c;
-    color: #fed7aa;
+/* ================= STATUS (ULTIMATE FIX - PERFECT ALIGNMENT) ================= */
+
+.status-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    padding: 12px;
+    border-radius: 12px;
+
+    /* 🔥 KEY FIX */
+    box-sizing: border-box;
+    height: 100%;
 }
 
-/* ================= STATUS ================= */
-
+/* HEADER */
 .status-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+/* LIVE indicator */
 .live-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     color: #22c55e;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
-    text-shadow: 0 0 6px #22c55e;
 }
 
+.live-indicator::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 6px #22c55e;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 3px #22c55e; }
+    50% { box-shadow: 0 0 10px #22c55e; }
+    100% { box-shadow: 0 0 3px #22c55e; }
+}
+
+/* STATUS BAR */
 .status-pill {
-    margin: 8px 0 6px;
-    padding: 8px 10px;
+    padding: 6px 12px;
     border-radius: 999px;
-    border: 1px solid rgba(56, 189, 248, 0.25);
-    background: #0b1220;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    background: rgba(2,6,23,0.85);
     color: #e2e8f0;
     font-size: 12px;
 }
 
-.status-pill.error {
-    border-color: rgba(239, 68, 68, 0.4);
-    color: #fecaca;
-}
-
+/* META */
 .status-meta {
-    margin-bottom: 12px;
     color: #94a3b8;
-    font-size: 12px;
+    font-size: 11px;
 }
 
+/* TIME BOX */
 .time-box {
-    margin-top: 15px;
-    padding: 12px;
-    border-radius: 8px;
-    background: rgba(2, 6, 23, 0.6);
-    border: 1px solid rgba(56, 189, 248, 0.2);
+    padding: 10px;
+    border-radius: 10px;
+    background: linear-gradient(145deg, rgba(2,6,23,0.9), rgba(15,23,42,0.9));
+    border: 1px solid rgba(56, 189, 248, 0.25);
     text-align: center;
 }
 
+/* LABEL */
 .label {
-    font-size: 11px;
-    opacity: 0.6;
-    margin-bottom: 4px;
+    font-size: 10px;
     letter-spacing: 1px;
+    color: #38bdf8;
 }
 
+/* TIME */
 #time {
-    font-size: 34px;
+    font-size: 28px;
     font-weight: bold;
-    letter-spacing: 2px;
+    color: #e2e8f0;
 }
+
+/* ================= DATE + WEATHER ================= */
 
 .status-info {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    margin-top: 15px;
     gap: 10px;
+
+    /* 🔥 KEY FIX */
+    margin-top: auto; /* pushes it to bottom properly */
 }
 
+/* CARD */
 .info-block {
-    padding: 8px 10px;
-    border-radius: 6px;
-    background: rgba(2, 6, 23, 0.4);
-    border: 1px solid rgba(56, 189, 248, 0.15);
+    padding: 10px;
+    border-radius: 10px;
+    background: rgba(2, 6, 23, 0.75);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+
+    box-sizing: border-box;
 }
 
+/* DATE */
+#date {
+    font-size: 13px;
+    font-weight: 600;
+    color: #e2e8f0;
+    line-height: 1.4;
+}
+
+/* WEATHER */
+.info-block div:nth-child(2) {
+    font-size: 13px;
+    font-weight: 600;
+    color: #e2e8f0;
+}
+
+/* SUB TEXT */
 .sub {
-    font-size: 11px;
-    opacity: 0.6;
+    font-size: 10px;
+    color: #94a3b8;
 }
 
 /* ================= VITALS ================= */
