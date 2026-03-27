@@ -19,19 +19,26 @@ export function loadMap(nodes = [], threats = []) {
     const overlay = document.getElementById('node-overlay');
     overlay.innerHTML = '';
 
-    if (!nodes.length && !threats.length) {
+    const plottedNodes = nodes.filter((node) => (
+        Number.isFinite(Number(node.lat)) && Number.isFinite(Number(node.lon))
+    ));
+    const plottedThreats = threats.filter((threat) => (
+        Number.isFinite(Number(threat.lat)) && Number.isFinite(Number(threat.lon))
+    ));
+
+    if (!plottedNodes.length && !plottedThreats.length) {
         overlay.innerHTML = '<div class="placeholder map-placeholder">Waiting for ESP coordinates...</div>';
         return;
     }
 
     const latitudes = [
-        ...nodes.map((node) => Number(node.lat)),
-        ...threats.map((threat) => Number(threat.lat)),
+        ...plottedNodes.map((node) => Number(node.lat)),
+        ...plottedThreats.map((threat) => Number(threat.lat)),
     ]
         .filter((value) => Number.isFinite(value));
     const longitudes = [
-        ...nodes.map((node) => Number(node.lon)),
-        ...threats.map((threat) => Number(threat.lon)),
+        ...plottedNodes.map((node) => Number(node.lon)),
+        ...plottedThreats.map((threat) => Number(threat.lon)),
     ]
         .filter((value) => Number.isFinite(value));
 
@@ -40,7 +47,7 @@ export function loadMap(nodes = [], threats = []) {
     const minLng = longitudes.length ? Math.min(...longitudes) : 0;
     const maxLng = longitudes.length ? Math.max(...longitudes) : 0;
 
-    nodes.forEach((node, index) => {
+    plottedNodes.forEach((node, index) => {
         const marker = document.createElement('div');
         const latitude = Number(node.lat);
         const longitude = Number(node.lon);
@@ -68,7 +75,7 @@ export function loadMap(nodes = [], threats = []) {
         overlay.appendChild(marker);
     });
 
-    threats.forEach((threat, index) => {
+    plottedThreats.forEach((threat, index) => {
         const marker = document.createElement('div');
         const latitude = Number(threat.lat);
         const longitude = Number(threat.lon);
