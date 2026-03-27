@@ -10,10 +10,11 @@ from routes.logs import bp as log_bp
 from routes.node import bp as node_bp
 from routes.simulate import bp as simulate_bp
 from routes.simulate import generate_data
+from services.heart_rate_poller import start_heart_rate_poller
 from routes.threats import bp as threat_bp
 from routes.vitals import bp as vitals_bp
 from services.serial_listener import start_serial_ingest
-from services.store import ingest_data
+from services.store import ingest_data, update_heart_rate
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 FRONTEND_DIR = os.path.abspath(os.path.join(BASE_DIR, '..', 'frontend'))
@@ -55,6 +56,7 @@ if os.getenv('ENABLE_SIMULATOR', '').lower() == 'true':
     threading.Thread(target=auto_simulate, daemon=True).start()
 
 start_serial_ingest(ingest_data)
+start_heart_rate_poller(update_heart_rate)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

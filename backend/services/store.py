@@ -1,6 +1,8 @@
 import time
 from threading import Lock
 
+from services.hr_config import has_heart_rate_source
+
 nodes = {}
 logs = []
 MAX_LOGS = 20
@@ -72,6 +74,18 @@ def _normalize_payload(data):
     }
 
 
+def _resolve_node_heart_rate(node_id, incoming_heart_rate, existing_node):
+    existing_heart_rate = existing_node.get("hr") if existing_node else None
+
+    if has_heart_rate_source(node_id):
+        return existing_heart_rate
+
+    if incoming_heart_rate is None:
+        return existing_heart_rate
+
+    return incoming_heart_rate
+
+
 def _build_log_items_locked():
     return list(logs[-MAX_LOGS:])
 
@@ -98,11 +112,12 @@ def ingest_data(data):
     node_id = normalized["id"]
 
     with store_lock:
+        existing_node = nodes.get(node_id, {})
         nodes[node_id] = {
             "id": node_id,
             "lat": normalized["lat"],
             "lon": normalized["lon"],
-            "hr": normalized["hr"],
+            "hr": _resolve_node_heart_rate(node_id, normalized["hr"], existing_node),
             "cmd": normalized["cmd"],
             "en": normalized["en"],
             "enemy_count": len(normalized["en"]),
@@ -118,6 +133,33 @@ def ingest_data(data):
             del logs[:-MAX_LOGS]
 
     return normalized
+
+
+def update_heart_rate(node_id, heart_rate):
+    normalized_node_id = str(node_id or "").strip()
+    normalized_heart_rate = _coerce_number(heart_rate)
+
+    if not normalized_node_id or not isinstance(normalized_heart_rate, (int, float)):
+        return False
+
+    with store_lock:
+        node = nodes.get(normalized_node_id)
+        if node is None:
+            nodes[normalized_node_id] = {
+                "id": normalized_node_id,
+                "lat": None,
+                "lon": None,
+                "hr": normalized_heart_rate,
+                "cmd": None,
+                "en": [],
+                "enemy_count": 0,
+                "timestamp": int(time.time()),
+            }
+            return True
+
+        node["hr"] = normalized_heart_rate
+
+    return True
 
 
 def get_nodes():
